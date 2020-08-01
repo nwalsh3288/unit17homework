@@ -34,8 +34,9 @@ app.get("/api/workouts",(req,res) => {
     
 })
 
-app.post("/api/workouts", ({ body }, res) => {
-    Workout.create(body)
+app.post("/api/workouts", (req, res) => {
+  console.log("test")
+    Workout.create({})
       .then(dbWorkout => {
         res.json(dbWorkout);
       })
@@ -44,6 +45,21 @@ app.post("/api/workouts", ({ body }, res) => {
       });
   });
 
+  app.put("/api/workouts/:id", (req, res) => {
+    console.log(req.params.id)
+    console.log(req.body)
+    Workout.findByIdAndUpdate(req.params.id, { exercises: req.body }, function (err, workout){
+      console.log(workout)
+    });
+      // Workout.create({})
+      //   .then(dbWorkout => {
+      //     res.json(dbWorkout);
+      //   })
+      //   .catch(err => {
+      //     res.status(400).json(err);
+      //   });
+    });
+
 
 app.get("/exercise", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/exercise.html"));
@@ -51,9 +67,6 @@ app.get("/exercise", (req, res) => {
 app.get("/stats", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/stats.html"));
 });
-
-
-
 
 
 
